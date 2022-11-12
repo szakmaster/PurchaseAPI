@@ -4,7 +4,7 @@ using PurchaseAPI.Interfaces;
 
 namespace PurchaseAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class PurchaseDataController : ControllerBase
     {

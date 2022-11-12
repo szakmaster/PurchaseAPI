@@ -36,7 +36,7 @@ namespace PurchaseAPI.Services
         {
             if (vatRatesList == null || !vatRatesList.Any())
             {
-                throw new ArgumentException("VAT rates cannot be found.");
+                throw new InvalidDataException("VAT rates cannot be found.");
             }
 
             var vatRates = vatRatesList.Select(s => int.TryParse(s, out int number) ? number : (int?)null)
@@ -46,7 +46,7 @@ namespace PurchaseAPI.Services
 
             if (!vatRates.Contains(vatRateInput))
             {
-                throw new ArgumentException($"Invalid VAT rate {vatRateInput} %. It should be one of {string.Join(", ", vatRates)}");
+                throw new InvalidDataException($"Invalid VAT rate {vatRateInput} %. It should be one of {string.Join(", ", vatRates)}");
             }
         }
     }
