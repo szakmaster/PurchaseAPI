@@ -1,19 +1,30 @@
+using Microsoft.OpenApi.Models;
 using PurchaseAPI.Extensions;
 using PurchaseAPI.Interfaces;
 using PurchaseAPI.Services;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Purchase data calculator API",
+        Description = "A WebAPI that calculates the purchase data (net, gross and VAT amount) based on a given value (net/gross/VATamount) and the VAT rate."
+    });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 // Configure services
 builder.Services.AddScoped<IPurchaseService, PurchaseService>();
-builder.Services.AddScoped<ModelValidationAttribute>();
+builder.Services.AddScoped<InputValidationAttribute>();
 
 var app = builder.Build();
 
